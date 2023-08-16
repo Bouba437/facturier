@@ -1,5 +1,7 @@
 import { Datas } from '../classes/Datas.js'
 import { HasHtmlFormat } from "../interfaces/HasHtmlFormat.js";
+import { HasRender } from '../interfaces/hasRender.js';
+import { Display } from './Display.js';
 
 export class FormInput {
     form: HTMLFormElement;
@@ -14,6 +16,8 @@ export class FormInput {
     price: HTMLInputElement;
     quantity: HTMLInputElement;
     tva: HTMLInputElement;
+    docContainer: HTMLDivElement;
+    hiddenDiv: HTMLDivElement;
 
     constructor() {
         this.form = document.querySelector("#form") as HTMLFormElement;
@@ -28,6 +32,9 @@ export class FormInput {
         this.price = document.querySelector("#price") as HTMLInputElement;
         this.quantity = document.querySelector("#quantity") as HTMLInputElement;
         this.tva = document.querySelector("#tva") as HTMLInputElement;
+
+        this.docContainer = document.querySelector("#document-container") as HTMLDivElement;
+        this.hiddenDiv = document.querySelector("#hiddenDiv") as HTMLDivElement;
 
         // Listener 
         this.submitFormListener();
@@ -46,13 +53,14 @@ export class FormInput {
         if(Array.isArray(inputs)) {
             const [type, firstName, lastName, address, country, town, zip, product, price, quantity, tva] = inputs;
 
-            console.log(type, firstName, lastName, address, country, town, zip, product, price, quantity, tva);
-
             let docData: HasHtmlFormat;
             let date: Date = new Date();
             
             docData = new Datas(type, firstName, lastName, address, country, town, zip, product, price, quantity, tva, date);
-            console.log(docData.htmlFormat());
+            // console.log(docData.htmlFormat());
+            let template: HasRender;
+            template = new Display(this.docContainer, this.hiddenDiv);
+            template.render(docData, type);
             
         }
     }

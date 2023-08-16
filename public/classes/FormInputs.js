@@ -1,4 +1,5 @@
 import { Datas } from '../classes/Datas.js';
+import { Display } from './Display.js';
 export class FormInput {
     constructor() {
         this.form = document.querySelector("#form");
@@ -13,6 +14,8 @@ export class FormInput {
         this.price = document.querySelector("#price");
         this.quantity = document.querySelector("#quantity");
         this.tva = document.querySelector("#tva");
+        this.docContainer = document.querySelector("#document-container");
+        this.hiddenDiv = document.querySelector("#hiddenDiv");
         // Listener 
         this.submitFormListener();
     }
@@ -25,11 +28,13 @@ export class FormInput {
         const inputs = this.inputData();
         if (Array.isArray(inputs)) {
             const [type, firstName, lastName, address, country, town, zip, product, price, quantity, tva] = inputs;
-            console.log(type, firstName, lastName, address, country, town, zip, product, price, quantity, tva);
             let docData;
             let date = new Date();
             docData = new Datas(type, firstName, lastName, address, country, town, zip, product, price, quantity, tva, date);
-            console.log(docData.htmlFormat());
+            // console.log(docData.htmlFormat());
+            let template;
+            template = new Display(this.docContainer, this.hiddenDiv);
+            template.render(docData, type);
         }
     }
     inputData() {
